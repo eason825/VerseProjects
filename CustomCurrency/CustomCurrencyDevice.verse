@@ -141,7 +141,7 @@ CustomCurrency := class(creative_device):
         #subscribe to the OnPlayerAdded function when player joins the game
         GetPlayspace().PlayerAddedEvent().Subscribe(OnPlayerAdded)
 
-      OnPlayerAdded(Agent : agent): void =
+    OnPlayerAdded(Agent : agent): void =
 
         #fetch the agent from the fort character, fetch the player from the agent
         if(FortChar := Agent.GetFortCharacter[], Player := player[Agent]):
@@ -152,7 +152,7 @@ CustomCurrency := class(creative_device):
 
             #save the class to the agent map
             if(set PlayerHuds[Player] = UIHudPlayer){
-                UIHudPlayer.ShowUIForPlayer(Player)
+                UIHudPlayer.ShowUIPerPlayer(Player)
             }
 
 
@@ -209,6 +209,5 @@ CustomCurrency := class(creative_device):
             }
         }
     
-
 
 
