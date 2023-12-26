@@ -5,7 +5,6 @@
 #Join my discord sever for any questions discord.gg/rJJqJrJ24b
 #I apologize if this code is messy and my variables are named weridly!, I tried my best :D
 
-
 using { /Fortnite.com/Devices }
 using { /Verse.org/Simulation }
 using { /UnrealEngine.com/Temporary/Diagnostics }
@@ -274,18 +273,29 @@ ui_voting_class := class<unique>():
 #- this structure is what we will have in each element in the array            
 ChoiceStructure := struct<concrete>{
     @editable Name : string = "Name" #name is the default name
-    @editable Trigger : teleporter_device = teleporter_device{} #trigger, Well a trigger that is triggered when Name is the winner
+    @editable Trigger : trigger_device = trigger_device{} #trigger, Well a trigger that is triggered when Name is the winner
 }
 
 #this will be used further down in the code, This compiles the name, trigger as well as the image.
 DataStructureChoice := struct{
     Name:string
-    Trigger: teleporter_device
+    Trigger: trigger_device
     Image : texture
 }
 
 #Creates the creative device :)
 voting_system := class(creative_device){
+    #IMAGES!! This is very important, The order does matter. 
+    #Make sure to seperate each item with a comma, You dont need a comma for the last one
+    #In my project i had TexturesUI as a folder with textures like agency, durrr, mega, tacos. You will change theese to the ones you have
+    
+    var Images : []texture = array{
+        TexturesUI.agency,
+        TexturesUI.durrr,
+        TexturesUI.mega,
+        TexturesUI.tacos,
+        TexturesUI.placeholder1920
+    }
     #Timer Default time is 30, can be adjusted in the editable
     @editable TimeToWait : int = 30
     #Time current is the progress of the timer
@@ -298,16 +308,8 @@ voting_system := class(creative_device){
     #Player map which stores the classes
     var PlayerHudClasses : [player]ui_voting_class = map{}
 
-    #IMAGES!! This is very important, The order does matter. 
-    #Make sure to seperate each item with a comma, You dont need a comma for the last one
-    #In my project i had TexturesUI as a folder with textures like agency, durrr, mega, tacos. You will change theese to the ones you have
-    var Images : []texture = array{
-        TexturesUI.agency,
-        TexturesUI.durrr,
-        TexturesUI.mega,
-        TexturesUI.tacos,
-        TexturesUI.placeholder1920
-    }
+    
+    
     #this array will have name, triger, image so that the device can understand which go with which (We wouldnt need this if epic gave us editable textures :( )
     var ChoicesImagesCompiled : []DataStructureChoice = array{}
 
@@ -413,9 +415,9 @@ voting_system := class(creative_device){
                             if(Trigger := Options[I].Trigger, Name := Options[I].Name){
                                 #gets the name and trigger
                                 #triggers the trigger
-                                for(Players : GetPlayspace().GetPlayers()){
-                                    Trigger.Teleport(Players)
-                                }
+                                #for(Players : GetPlayspace().GetPlayers()){
+                                Trigger.Trigger()
+                                #}
                                 
                                 #hides ui for player
                                 for(Player : AllPlayers){
